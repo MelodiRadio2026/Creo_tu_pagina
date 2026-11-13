@@ -74,8 +74,6 @@ Mandanos el comprobante por WhatsApp y te confirmamos en seguida.
 <h3>👤 Tus datos</h3>
 <input type="text" id="nombre" placeholder="Tu nombre completo">
 <input type="tel" id="telefono" placeholder="Tu teléfono Ej: 0991247112" maxlength="10">
-<input type="tel" id="cedula" placeholder="Tu número de cédula Ej: 4718105" inputmode="numeric">
-<p style="font-size:12px; color:#666; margin:0;">Tu cédula es solo para confirmar tu pedido. No se comparte con nadie.</p>
 
 <h3>📍 Tu ubicación</h3>
 <button onclick="pedirUbicacion()" style="background:#2196F3; color:white; padding:12px; width:100%; border-radius:10px; border:none; font-weight:bold;">📍 MANDAR MI UBICACIÓN</button>
@@ -151,31 +149,28 @@ function pedirUbicacion(){
 function enviarPedido(){
   let nombre = document.getElementById('nombre').value;
   let telefono = document.getElementById('telefono').value;
-  let cedula = document.getElementById('cedula').value;
   let entrega = document.getElementById('entrega').options[document.getElementById('entrega').selectedIndex].text;
   let pago = document.getElementById('pago').value;
   let total = calcular();
   if(total==0){ alert("Elegí al menos 1 producto"); return; }
   if(!nombre){ alert("Poné tu nombre"); return; }
   if(!telefono){ alert("Poné tu teléfono"); return; }
-  if(!cedula){ alert("Poné tu número de cédula"); return; }
   let detalle = "";
   productos.forEach(p=>{ if(p.cant>0) detalle += `• ${p.cant} x ${p.nombre} - Gs. ${(p.precio*p.cant).toLocaleString('es-PY')}%0A`; });
   let estado = (pago=="Transferencia") ? "⏳ PENDIENTE - FALTA PAGO POR TRANSFERENCIA" : "⏳ PENDIENTE - PAGA EN EFECTIVO AL LLEGAR";
-  let nuevo = {nombre:nombre, telefono:telefono, cedula:cedula, detalle:detalle, total:"Gs. " + total.toLocaleString('es-PY'), pago:pago, estado:estado, entrega:entrega, ubicacion:miUbicacion};
+  let nuevo = {nombre:nombre, telefono:telefono, detalle:detalle, total:"Gs. " + total.toLocaleString('es-PY'), pago:pago, estado:estado, entrega:entrega, ubicacion:miUbicacion};
   pedidosGuardados.push(nuevo);
   localStorage.setItem('pedidosCaacupena', JSON.stringify(pedidosGuardados));
-  let mensaje = `Hola! Nuevo pedido Caacupéña SA%0A%0A${detalle}%0AEntrega: ${entrega}%0APago: ${pago}%0ATotal: Gs. ${total.toLocaleString('es-PY')}%0A%0ACliente: ${nombre}%0ATel: ${telefono}%0ACédula: ${cedula}%0AUbicación: ${miUbicacion || 'Retiro en local'}%0A%0A${pago=='Transferencia' ? '⏳ PENDIENTE. El cliente tiene que mandar el comprobante. NO preparar hasta confirmar el pago.' : '💵 PAGA EN EFECTIVO AL LLEGAR.'}`;
+  let mensaje = `Hola! Nuevo pedido Caacupéña SA%0A%0A${detalle}%0AEntrega: ${entrega}%0APago: ${pago}%0ATotal: Gs. ${total.toLocaleString('es-PY')}%0A%0ACliente: ${nombre}%0ATel: ${telefono}%0AUbicación: ${miUbicacion || 'Retiro en local'}%0A%0A${pago=='Transferencia' ? '⏳ PENDIENTE. El cliente tiene que mandar el comprobante. NO preparar hasta confirmar el pago.' : '💵 PAGA EN EFECTIVO AL LLEGAR.'}`;
   window.open("https://wa.me/595991247112?text=" + mensaje, "_blank");
   if(pago=="Transferencia"){ alert("Tu pedido quedó PENDIENTE. Mandanos la captura del comprobante por WhatsApp."); } else { alert("Tu pedido fue enviado. Vas a pagar en EFECTIVO cuando llegue. Tené el dinero listo. Gracias!"); }
 }
 function anularMiPedido(){
   let nombre = document.getElementById('nombre').value;
   let telefono = document.getElementById('telefono').value;
-  let cedula = document.getElementById('cedula').value;
   if(!nombre){ alert("Poné tu nombre para anular tu pedido"); return; }
   if(!confirm("¿Seguro que querés ANULAR tu pedido?")) return;
-  let mensaje = `❌ PEDIDO NULO / ANULADO - Caacupéña SA%0A%0ACliente: ${nombre}%0ATel: ${telefono}%0ACédula: ${cedula}%0A%0AQuiero ANULAR mi pedido. Por favor no lo preparen. Gracias!`;
+  let mensaje = `❌ PEDIDO NULO / ANULADO - Caacupéña SA%0A%0ACliente: ${nombre}%0ATel: ${telefono}%0A%0AQuiero ANULAR mi pedido. Por favor no lo preparen. Gracias!`;
   window.open("https://wa.me/595991247112?text=" + mensaje, "_blank");
   alert("Tu pedido fue anulado. No te vamos a cobrar nada. Gracias por avisar!");
   productos.forEach(p=> p.cant = 0);
@@ -194,7 +189,7 @@ function verPedidos(){
       else { botonPago = `<button onclick="confirmarEfectivo(${i})" style="background:#ff9800; color:white; padding:12px; width:100%; border-radius:10px; border:none; margin-top:5px; font-weight:bold;">💵 CONFIRMAR QUE YA ME PAGÓ EN EFECTIVO</button>`; }
     }
     html += `<div style="border-bottom:2px solid ${esAnulado ? 'red' : '#ccc'}; padding:10px 0; background:${esAnulado ? '#ffe0e0' : 'white'};">
-    <b>${i+1}. ${p.nombre}</b> - ${p.telefono}<br>Cédula: <b>${p.cedula || 'No puso'}</b><br>${p.detalle.replaceAll('%0A','<br>')}<br><b>Total: ${p.total}</b> - ${p.pago} - ${p.entrega}<br>Ubicación: ${p.ubicacion || 'Sin ubicación'}<br>Estado: <b>${p.estado}</b><br><br>${botonPago}
+    <b>${i+1}. ${p.nombre}</b> - ${p.telefono}<br>${p.detalle.replaceAll('%0A','<br>')}<br><b>Total: ${p.total}</b> - ${p.pago} - ${p.entrega}<br>Ubicación: ${p.ubicacion || 'Sin ubicación'}<br>Estado: <b>${p.estado}</b><br><br>${botonPago}
     ${!esAnulado ? `<button onclick="pedidoEnCamino(${i})" style="background:#2196F3; color:white; padding:12px; width:100%; border-radius:10px; border:none; margin-top:5px; font-weight:bold;">🛵 YA SALIÓ EN CAMINO</button>` : ''}
     ${!esAnulado ? `<button onclick="anularPedidoDuenio(${i})" style="background:#e53935; color:white; padding:12px; width:100%; border-radius:10px; border:none; margin-top:5px; font-weight:bold;">❌ ANULAR ESTE PEDIDO - PEDIDO NULO</button>` : ''}
     </div>`;
@@ -237,4 +232,4 @@ function anularPedidoDuenio(i){
 mostrar();
 </script>
 </body>
-  </html>
+</html>
