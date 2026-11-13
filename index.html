@@ -3,233 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Caacupéña SA - Pedí Ya</title>
+<title>Caacupéña SA - Pedidos</title>
 <style>
-body{font-family:Arial; margin:0; background:#fff8e1; padding-bottom:20px;}
-.cabeza{background:#ffcc00; padding:15px; text-align:center;}
-.cabeza h1{margin:0; font-size:32px;}
-.cabeza img{width:100%; max-width:500px; border-radius:15px; margin-top:10px;}
-.producto{background:white; margin:12px; padding:12px; border-radius:15px; display:flex; gap:10px; align-items:center; box-shadow:0 2px 5px #ddd;}
-.producto img{width:90px; height:90px; object-fit:cover; border-radius:12px;}
-.precio{color:#e65100; font-weight:bold; font-size:18px;}
-.btn{width:38px; height:38px; font-size:22px; border-radius:50%; border:none; background:#ffcc00; font-weight:bold;}
-.cant{font-size:20px; margin:0 8px; font-weight:bold;}
-.caja{background:white; margin:12px; padding:15px; border-radius:15px;}
-input, select{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:1px solid #ccc; font-size:16px; box-sizing:border-box;}
-.boton-pedir{background:#25D366; color:white; border:none; width:94%; margin:12px; padding:18px; border-radius:15px; font-size:20px; font-weight:bold;}
-.boton-anular{background:#e53935; color:white; border:none; width:94%; margin:0 12px 12px 12px; padding:14px; border-radius:15px; font-size:17px; font-weight:bold;}
-.transfer{background:#fff3cd; border:2px dashed #ff9900; padding:15px; border-radius:12px; margin-top:10px;}
-.efectivo{background:#e8f5e9; border:2px dashed #25D366; padding:15px; border-radius:12px; margin-top:10px; text-align:center; font-weight:bold;}
-.total{font-size:24px; font-weight:bold; text-align:center;}
-.aviso{background:#ffe0e0; border:2px solid red; padding:12px; border-radius:12px; text-align:center; font-weight:bold;}
+body{font-family:Arial,sans-serif;background:#FFF8E1;margin:0;padding:0}
+header{background:#FFD700;text-align:center;padding:20px}
+header h1{margin:0;font-size:28px}
+.productos{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px}
+.card{background:white;border-radius:12px;padding:10px;text-align:center;box-shadow:0 2px 6px #ccc}
+.card img{width:100%;height:140px;object-fit:cover;border-radius:10px;background:#FFD700}
+.card h3{margin:8px 0 2px}
+.card p{margin:2px;color:#555}
+.card button{background:#FFD700;border:none;padding:10px;width:100%;border-radius:8px;font-weight:bold;font-size:16px;margin-top:6px}
+#carrito{background:white;margin:12px;padding:12px;border-radius:12px}
+#carrito input{width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:8px}
+.btn-pedido{background:#25D366;color:white;border:none;padding:14px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:8px}
+.panel{background:#111;color:white;margin:12px;padding:15px;border-radius:12px}
+.panel h2{text-align:center;color:#FFD700}
+.resp-btn{display:block;text-decoration:none;text-align:center;padding:14px;border-radius:10px;font-weight:bold;font-size:17px;margin:8px 0;color:white}
+.b1{background:#25D366}.b2{background:#FF9800}.b3{background:#2196F3}.b4{background:#9C27B0}
 </style>
 </head>
 <body>
 
-<div class="cabeza">
-<h1>Caacupéña SA</h1>
-<p>De Reinerio Ayala - Caacupé</p>
-<p>📞 0991 247 112</p>
-<img src="hamburguesa.jpg">
-<p>Hacé tu pedido acá abajo 👇</p>
+<header>
+<h1>🍔 CAACUPÉÑA SA</h1>
+<p>Caacupé - Pedí por WhatsApp</p>
+<p>📱 0991 247 112</p>
+</header>
+
+<div class="productos">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFD700/000000?text=HAMBURGUESA'">
+<h3>🍔 Hamburguesa Clásica</h3><p>25.000 Gs.</p>
+<button onclick="agregar('Hamburguesa Clásica',25000)">AGREGAR</button>
 </div>
 
-<div id="lista"></div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=600&q=80" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FF9800/ffffff?text=EMPANADA'">
+<h3>🥟 Empanada</h3><p>5.000 Gs.</p>
+<button onclick="agregar('Empanada',5000)">AGREGAR</button>
+</div>
 
-<div class="caja">
-<h3>🛵 ¿Cómo querés recibir?</h3>
-<select id="entrega" onchange="calcular()">
-<option value="0">Retiro en el local - Gratis</option>
-<option value="5000">Delivery en Caacupé - Gs. 5.000</option>
-<option value="10000">Delivery fuera de Caacupé - Gs. 10.000</option>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFC107/000000?text=PAPAS+FRITAS'">
+<h3>🍟 Papas Fritas</h3><p>15.000 Gs.</p>
+<button onclick="agregar('Papas Fritas',15000)">AGREGAR</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=600&q=80" onerror="this.onerror=null;this.src='https://placehold.co/600x400/8D6E63/ffffff?text=LOMITO+ARABE'">
+<h3>🌯 Lomito Árabe</h3><p>30.000 Gs.</p>
+<button onclick="agregar('Lomito Árabe',30000)">AGREGAR</button>
+</div>
+
+</div>
+
+<div id="carrito">
+<h3>🛒 Tu Pedido</h3>
+<div id="lista">Todavía no agregaste nada</div>
+<p><b>Total: <span id="total">0</span> Gs.</b></p>
+<input id="nombre" placeholder="Tu nombre">
+<input id="direccion" placeholder="Tu dirección / barrio">
+<select id="pago" style="width:100%;padding:10px;border-radius:8px">
+<option value="Efectivo">💵 Pago en Efectivo</option>
+<option value="Transferencia">🏦 Transferencia - Alias 0991247112 Banco Familiar</option>
 </select>
-
-<h3>💳 ¿Cómo vas a pagar?</h3>
-<select id="pago" onchange="mostrarPago()">
-<option value="Efectivo">Efectivo - Pagás cuando llega tu pedido</option>
-<option value="Transferencia">Transferencia / Giro</option>
-</select>
-
-<div id="cajaTransfer" class="transfer" style="display:none;">
-<h3>💳 PAGÁ POR TRANSFERENCIA</h3>
-<p><b>Banco Familiar</b><br>Alias: <b>0991247112</b><br>Titular: Reinerio Ayala</p>
-<p><b>Banco Continental</b><br>Alias: <b>ci.4718105</b><br>Titular: Reinerio Ayala</p>
-<p>1. Transferí el total desde tu app del banco</p>
-<p>2. Sacale captura al comprobante</p>
-<p>3. Mandame la captura por WhatsApp</p>
-<button onclick="copiarAlias()" style="background:#ffcc00; padding:12px; width:100%; border-radius:10px; font-weight:bold; border:none;">📋 COPIAR ALIAS FAMILIAR</button>
+<button class="btn-pedido" onclick="pedir()">📲 ENVIAR PEDIDO POR WHATSAPP</button>
+<p style="font-size:13px;text-align:center">Si es transferencia: Alias 0991247112 - CI 4718105 - Banco Familiar</p>
 </div>
 
-<div id="cajaEfectivo" class="efectivo">
-💵 VAS A PAGAR EN EFECTIVO<br>
-Tené el dinero listo cuando llegue tu pedido.<br>
-Total a pagar al recibir: <span id="totalEfectivo">Gs. 0</span>
+<div class="panel">
+<h2>🔐 PANEL DEL DUEÑO</h2>
+<h3 style="text-align:center">⚡ RESPUESTAS RÁPIDAS</h3>
+<a class="resp-btn b1" href="https://wa.me/?text=Hola!%20Gracias%20por%20tu%20pedido%20en%20Caacup%C3%A9%C3%B1a%20SA%20%F0%9F%99%8F%20Ya%20estamos%20preparando.%20Te%20aviso%20cuando%20salga%20en%20camino%20%F0%9F%9B%B5" target="_blank">✅ 1. CONFIRMAR PEDIDO</a>
+<a class="resp-btn b2" href="https://wa.me/?text=Hola!%20Recib%C3%AD%20tu%20pedido%2C%20queda%20pendiente%20hasta%20que%20me%20mandes%20el%20comprobante%20%F0%9F%99%8F%20Transfer%C3%AD%20a%20alias%200991247112%20Banco%20Familiar." target="_blank">🧾 2. PEDIR COMPROBANTE</a>
+<a class="resp-btn b3" href="https://wa.me/?text=Hola!%20%E2%9C%85%20TU%20PAGO%20EST%C3%81%20CONFIRMADO.%20Ya%20estamos%20preparando%20tu%20pedido.%20%F0%9F%9B%B5" target="_blank">💵 3. PAGO CONFIRMADO</a>
+<a class="resp-btn b4" href="https://wa.me/?text=Hola!%20%F0%9F%9B%B5%20Tu%20pedido%20YA%20SALI%C3%93%20en%20camino!%20En%20unos%20minutos%20llega.%20Gracias%20por%20pedir%20en%20Caacup%C3%A9%C3%B1a%20SA%20%F0%9F%99%8F" target="_blank">🛵 4. YA SALIÓ EN CAMINO</a>
 </div>
-
-<div id="avisoPago" class="aviso" style="display:none;">
-⏳ TU PEDIDO QUEDA PENDIENTE HASTA QUE CONFIRMEMOS TU PAGO.<br>
-Mandanos el comprobante por WhatsApp y te confirmamos en seguida.
-</div>
-
-<h3>👤 Tus datos</h3>
-<input type="text" id="nombre" placeholder="Tu nombre completo">
-<input type="tel" id="telefono" placeholder="Tu teléfono Ej: 0991247112" maxlength="10">
-
-<h3>📍 Tu ubicación</h3>
-<button onclick="pedirUbicacion()" style="background:#2196F3; color:white; padding:12px; width:100%; border-radius:10px; border:none; font-weight:bold;">📍 MANDAR MI UBICACIÓN</button>
-<p id="ubicacionTexto" style="font-size:13px;">Si es Delivery, apretá el botón para mandar tu ubicación.</p>
-</div>
-
-<div class="caja total" id="totalTexto">Total: Gs. 0</div>
-
-<button class="boton-pedir" onclick="enviarPedido()">✅ ENVIAR PEDIDO POR WHATSAPP</button>
-<button class="boton-anular" onclick="anularMiPedido()">❌ ANULAR MI PEDIDO / PEDIDO NULO</button>
-<p style="text-align:center; font-size:13px; padding:0 15px;">Si ya hiciste un pedido y querés anularlo, apretá el botón rojo y avisanos. No te vamos a cobrar nada.</p>
-
-<div style="background:#111; padding:15px; margin:12px; border-radius:15px; text-align:center;">
-<p style="color:white; margin:0; font-weight:bold;">PANEL DEL DUEÑO - REINERIO AYALA</p>
-<p style="color:#ffcc00; font-size:13px;">Acá ves los pedidos, confirmás el pago o anulás</p>
-<button onclick="verPedidos()" style="background:#ffcc00; padding:12px; width:100%; border-radius:10px; font-weight:bold; border:none;">📋 VER PEDIDOS Y CONFIRMAR PAGO</button>
-<div id="misPedidos" style="display:none; background:white; color:black; text-align:left; padding:10px; border-radius:10px; margin-top:10px;"></div>
-</div>
-
-<p style="text-align:center; font-size:13px;">Caacupéña SA - Reinerio Ayala - 0991 247 112</p>
 
 <script>
-let productos = [
-  {nombre:"Hamburguesa", precio:12000, cant:0, foto:"hamburguesa.jpg"},
-  {nombre:"Empanada", precio:5000, cant:0, foto:"empanada.jpg"},
-  {nombre:"Coca Cola", precio:10000, cant:0, foto:"coca.jpg"},
-  {nombre:"Torta", precio:25000, cant:0, foto:"torta.jpg"}
-];
-let miUbicacion = "";
-let pedidosGuardados = JSON.parse(localStorage.getItem('pedidosCaacupena') || '[]');
-
-function mostrar(){
-  let html = "";
-  productos.forEach((p,i)=>{
-    html += `<div class="producto"><img src="${p.foto}"><div style="flex:1;"><b>${p.nombre}</b><br><span class="precio">Gs. ${p.precio.toLocaleString('es-PY')}</span></div><div><button class="btn" onclick="cambiar(${i},-1)">-</button><span class="cant">${p.cant}</span><button class="btn" onclick="cambiar(${i},1)">+</button></div></div>`;
-  });
-  document.getElementById('lista').innerHTML = html;
-  calcular();
+let carrito=[];let total=0;
+function agregar(n,p){carrito.push(n+" - "+p+" Gs.");total+=p;mostrar();}
+function mostrar(){document.getElementById('lista').innerHTML=carrito.join('<br>');document.getElementById('total').innerText=total.toLocaleString('es-PY');}
+function pedir(){
+let n=document.getElementById('nombre').value;
+let d=document.getElementById('direccion').value;
+let p=document.getElementById('pago').value;
+if(!n){alert('Poné tu nombre');return;}
+if(carrito.length==0){alert('Agregá un producto');return;}
+let msg="Hola! Nuevo pedido Caacupeña SA%0A%0ACliente: "+n+"%0ADirección: "+d+"%0A%0A"+carrito.join('%0A')+"%0A%0ATotal: "+total+" Gs.%0APago: "+p;
+window.open("https://wa.me/595991247112?text="+msg,"_blank");
 }
-function cambiar(i, n){
-  productos[i].cant += n;
-  if(productos[i].cant < 0) productos[i].cant = 0;
-  mostrar();
-}
-function calcular(){
-  let sub = 0;
-  productos.forEach(p=>{ sub += p.precio * p.cant; });
-  let delivery = parseInt(document.getElementById('entrega').value);
-  let total = sub + delivery;
-  if(sub==0) total = 0;
-  document.getElementById('totalTexto').innerText = "Total: Gs. " + total.toLocaleString('es-PY');
-  document.getElementById('totalEfectivo').innerText = "Gs. " + total.toLocaleString('es-PY');
-  return total;
-}
-function mostrarPago(){
-  let pago = document.getElementById('pago').value;
-  document.getElementById('cajaTransfer').style.display = (pago=="Transferencia") ? "block" : "none";
-  document.getElementById('cajaEfectivo').style.display = (pago=="Efectivo") ? "block" : "none";
-  document.getElementById('avisoPago').style.display = (pago=="Transferencia") ? "block" : "none";
-}
-function copiarAlias(){
-  navigator.clipboard.writeText("0991247112");
-  alert("Alias copiado: 0991247112");
-}
-function pedirUbicacion(){
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition((pos)=>{
-      miUbicacion = "https://maps.google.com/?q=" + pos.coords.latitude + "," + pos.coords.longitude;
-      document.getElementById('ubicacionTexto').innerText = "✅ Ubicación lista";
-    }, ()=>{ alert("Activá tu GPS"); });
-  }
-}
-function enviarPedido(){
-  let nombre = document.getElementById('nombre').value;
-  let telefono = document.getElementById('telefono').value;
-  let entrega = document.getElementById('entrega').options[document.getElementById('entrega').selectedIndex].text;
-  let pago = document.getElementById('pago').value;
-  let total = calcular();
-  if(total==0){ alert("Elegí al menos 1 producto"); return; }
-  if(!nombre){ alert("Poné tu nombre"); return; }
-  if(!telefono){ alert("Poné tu teléfono"); return; }
-  let detalle = "";
-  productos.forEach(p=>{ if(p.cant>0) detalle += `• ${p.cant} x ${p.nombre} - Gs. ${(p.precio*p.cant).toLocaleString('es-PY')}%0A`; });
-  let estado = (pago=="Transferencia") ? "⏳ PENDIENTE - FALTA PAGO POR TRANSFERENCIA" : "⏳ PENDIENTE - PAGA EN EFECTIVO AL LLEGAR";
-  let nuevo = {nombre:nombre, telefono:telefono, detalle:detalle, total:"Gs. " + total.toLocaleString('es-PY'), pago:pago, estado:estado, entrega:entrega, ubicacion:miUbicacion};
-  pedidosGuardados.push(nuevo);
-  localStorage.setItem('pedidosCaacupena', JSON.stringify(pedidosGuardados));
-  let mensaje = `Hola! Nuevo pedido Caacupéña SA%0A%0A${detalle}%0AEntrega: ${entrega}%0APago: ${pago}%0ATotal: Gs. ${total.toLocaleString('es-PY')}%0A%0ACliente: ${nombre}%0ATel: ${telefono}%0AUbicación: ${miUbicacion || 'Retiro en local'}%0A%0A${pago=='Transferencia' ? '⏳ PENDIENTE. El cliente tiene que mandar el comprobante. NO preparar hasta confirmar el pago.' : '💵 PAGA EN EFECTIVO AL LLEGAR.'}`;
-  window.open("https://wa.me/595991247112?text=" + mensaje, "_blank");
-  if(pago=="Transferencia"){ alert("Tu pedido quedó PENDIENTE. Mandanos la captura del comprobante por WhatsApp."); } else { alert("Tu pedido fue enviado. Vas a pagar en EFECTIVO cuando llegue. Tené el dinero listo. Gracias!"); }
-}
-function anularMiPedido(){
-  let nombre = document.getElementById('nombre').value;
-  let telefono = document.getElementById('telefono').value;
-  if(!nombre){ alert("Poné tu nombre para anular tu pedido"); return; }
-  if(!confirm("¿Seguro que querés ANULAR tu pedido?")) return;
-  let mensaje = `❌ PEDIDO NULO / ANULADO - Caacupéña SA%0A%0ACliente: ${nombre}%0ATel: ${telefono}%0A%0AQuiero ANULAR mi pedido. Por favor no lo preparen. Gracias!`;
-  window.open("https://wa.me/595991247112?text=" + mensaje, "_blank");
-  alert("Tu pedido fue anulado. No te vamos a cobrar nada. Gracias por avisar!");
-  productos.forEach(p=> p.cant = 0);
-  mostrar();
-}
-function verPedidos(){
-  let caja = document.getElementById('misPedidos');
-  caja.style.display = 'block';
-  if(pedidosGuardados.length == 0){ caja.innerHTML = "Todavía no hay pedidos en este celular."; return; }
-  let html = "";
-  pedidosGuardados.forEach((p,i)=>{
-    let esAnulado = p.estado.includes("ANULADO");
-    let botonPago = "";
-    if(!esAnulado){
-      if(p.pago=="Transferencia"){ botonPago = `<button onclick="confirmarPago(${i})" style="background:#25D366; color:white; padding:12px; width:100%; border-radius:10px; border:none; margin-top:5px; font-weight:bold;">✅ CONFIRMAR PAGO - YA ME LLEGÓ LA PLATA</button>`; }
-      else { botonPago = `<button onclick="confirmarEfectivo(${i})" style="background:#ff9800; color:white; padding:12px; width:100%; border-radius:10px; border:none; margin-top:5px; font-weight:bold;">💵 CONFIRMAR QUE YA ME PAGÓ EN EFECTIVO</button>`; }
-    }
-    html += `<div style="border-bottom:2px solid ${esAnulado ? 'red' : '#ccc'}; padding:10px 0; background:${esAnulado ? '#ffe0e0' : 'white'};">
-    <b>${i+1}. ${p.nombre}</b> - ${p.telefono}<br>${p.detalle.replaceAll('%0A','<br>')}<br><b>Total: ${p.total}</b> - ${p.pago} - ${p.entrega}<br>Ubicación: ${p.ubicacion || 'Sin ubicación'}<br>Estado: <b>${p.estado}</b><br><br>${botonPago}
-    ${!esAnulado ? `<button onclick="pedidoEnCamino(${i})" style="background:#2196F3; color:white; padding:12px; width:100%; border-radius:10px; border:none; margin-top:5px; font-weight:bold;">🛵 YA SALIÓ EN CAMINO</button>` : ''}
-    ${!esAnulado ? `<button onclick="anularPedidoDuenio(${i})" style="background:#e53935; color:white; padding:12px; width:100%; border-radius:10px; border:none; margin-top:5px; font-weight:bold;">❌ ANULAR ESTE PEDIDO - PEDIDO NULO</button>` : ''}
-    </div>`;
-  });
-  caja.innerHTML = html;
-}
-function confirmarPago(i){
-  let p = pedidosGuardados[i];
-  p.estado = "✅ PAGO CONFIRMADO POR TRANSFERENCIA - PREPARAR PEDIDO";
-  localStorage.setItem('pedidosCaacupena', JSON.stringify(pedidosGuardados));
-  let msg = `Hola ${p.nombre}! Soy Reinerio de Caacupéña SA 🙏%0A%0A✅ TU PAGO POR TRANSFERENCIA ESTÁ CONFIRMADO%0A${p.detalle}%0ATotal: ${p.total}%0A%0AYa estamos preparando tu pedido. Te aviso cuando salga en camino 🛵 Gracias!`;
-  window.open("https://wa.me/595" + p.telefono + "?text=" + msg, "_blank");
-  verPedidos();
-}
-function confirmarEfectivo(i){
-  let p = pedidosGuardados[i];
-  p.estado = "✅ PAGADO EN EFECTIVO AL RECIBIR";
-  localStorage.setItem('pedidosCaacupena', JSON.stringify(pedidosGuardados));
-  let msg = `Hola ${p.nombre}! Soy Reinerio de Caacupéña SA 🙏%0A%0A✅ GRACIAS! TU PAGO EN EFECTIVO ESTÁ CONFIRMADO%0A${p.detalle}%0ATotal pagado: ${p.total}%0A%0AGracias por pedir en Caacupéña SA!`;
-  window.open("https://wa.me/595" + p.telefono + "?text=" + msg, "_blank");
-  verPedidos();
-}
-function pedidoEnCamino(i){
-  let p = pedidosGuardados[i];
-  p.estado = "🛵 EN CAMINO";
-  localStorage.setItem('pedidosCaacupena', JSON.stringify(pedidosGuardados));
-  let msg = `Hola ${p.nombre}! Soy Reinerio de Caacupéña SA 🛵%0A%0ATu pedido YA SALIÓ en camino!%0A${p.detalle}%0ATotal: ${p.total}%0APago: ${p.pago} ${p.pago=='Efectivo' ? '- Tené el dinero listo por favor 💵' : ''}%0A%0AEn unos minutos llega. Gracias por pedir en Caacupéña SA 🙏`;
-  window.open("https://wa.me/595" + p.telefono + "?text=" + msg, "_blank");
-  verPedidos();
-}
-function anularPedidoDuenio(i){
-  if(!confirm("¿Seguro que querés ANULAR este pedido? No se va a preparar.")) return;
-  let p = pedidosGuardados[i];
-  p.estado = "❌ PEDIDO NULO / ANULADO - NO PREPARAR";
-  localStorage.setItem('pedidosCaacupena', JSON.stringify(pedidosGuardados));
-  let msg = `Hola ${p.nombre}! Soy Reinerio de Caacupéña SA 🙏%0A%0A❌ TU PEDIDO FUE ANULADO%0A${p.detalle}%0ATotal: ${p.total}%0A%0ANo te preocupes, no se te va a cobrar nada. Gracias por avisar!`;
-  window.open("https://wa.me/595" + p.telefono + "?text=" + msg, "_blank");
-  verPedidos();
-}
-mostrar();
 </script>
 </body>
 </html>
