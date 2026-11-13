@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CREO TU PÁGINA - DJ REY AYALA | Luque</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0f0f0f;color:#fff}
+header{background:linear-gradient(135deg,#ff0055,#ffcc00);padding:30px 20px;text-align:center}
+header h1{font-size:32px}
+header p{margin:10px 0;font-size:18px}
+.btn{display:inline-block;background:#25D366;color:#fff;padding:15px 25px;border-radius:50px;text-decoration:none;font-weight:bold;margin:10px 5px;font-size:18px}
+.btn2{background:#fff;color:#000}
+section{padding:25px 18px;max-width:900px;margin:auto}
+h2{color:#ffcc00;margin-bottom:15px;font-size:24px}
+.card{background:#1e1e1e;border-radius:15px;padding:18px;margin:12px 0}
+.price{color:#25D366;font-size:22px;font-weight:bold}
+.prod{display:flex;justify-content:space-between;align-items:center;background:#222;padding:14px;border-radius:12px;margin:10px 0}
+.prod button{background:#ff0055;color:#fff;border:0;padding:10px 18px;border-radius:20px;font-weight:bold}
+input,select{width:100%;padding:13px;margin:8px 0;border-radius:10px;border:0;font-size:16px}
+label{font-weight:bold}
+#carrito{background:#fff;color:#000;border-radius:15px;padding:18px;margin-top:15px}
+.total{font-size:22px;font-weight:bold}
+footer{background:#000;text-align:center;padding:20px;color:#aaa}
+</style>
+</head>
+<body>
+<header>
+<h1>🎧 CREO TU PÁGINA</h1>
+<p>DJ REY AYALA - Luque, Paraguay</p>
+<p>Tu negocio con PEDIDOS - COBROS - DELIVERY - UBICACIÓN</p>
+<a class="btn" href="https://wa.me/59599124771?text=Hola%20Rey%2C%20quiero%20mi%20p%C3%A1gina">📲 PEDIR MI PÁGINA POR WHATSAPP</a>
+<br><a class="btn btn2" href="#demo">👇 VER EJEMPLO DE TIENDA</a>
+</header>
+<section>
+<h2>💰 ¿Qué vendo?</h2>
+<div class="card"><h3>1. Página Simple - 150.000 Gs</h3><p>Tu negocio en internet, con fotos, precios, botón WhatsApp y ubicación.</p><p class="price">150.000 Gs</p></div>
+<div class="card"><h3>2. Página Completa con Pedidos - 350.000 Gs ⭐ MÁS VENDIDA</h3><p>Recibe pedidos, cobra, delivery, ubicación y mapa.</p><p class="price">350.000 Gs</p></div>
+<div class="card"><h3>3. Página + Tu Propia APP - 900.000 Gs</h3><p>Tu página convertida en App que se instala en el celular.</p><p class="price">900.000 Gs</p></div>
+</section>
+<section id="demo">
+<h2>🍕 EJEMPLO: Así va a quedar tu tienda</h2>
+<p>Probá: Tocá AGREGAR y hacé un pedido de prueba.</p>
+<div class="prod"><div><b>Lomito Completo</b><br>25.000 Gs</div><button onclick="agregar('Lomito Completo',25000)">AGREGAR +</button></div>
+<div class="prod"><div><b>Pizza Grande</b><br>45.000 Gs</div><button onclick="agregar('Pizza Grande',45000)">AGREGAR +</button></div>
+<div class="prod"><div><b>Hamburguesa Doble</b><br>30.000 Gs</div><button onclick="agregar('Hamburguesa Doble',30000)">AGREGAR +</button></div>
+<div class="prod"><div><b>Gaseosa 1L</b><br>10.000 Gs</div><button onclick="agregar('Gaseosa 1L',10000)">AGREGAR +</button></div>
+<div id="carrito">
+<h3>🛒 Tu Pedido</h3>
+<p id="lista">Aún no agregaste nada.</p>
+<p class="total">Total: <span id="total">0</span> Gs</p>
+<label>Tu Nombre</label><input id="nombre" placeholder="Ej: Juan Pérez">
+<label>Tu Dirección / Barrio</label><input id="direccion" placeholder="Ej: Luque, Barrio Bella Vista, Calle...">
+<label>¿Cómo vas a pagar?</label>
+<select id="pago"><option>Efectivo al recibir</option><option>Transferencia / Giro</option><option>Tarjeta al recibir</option></select>
+<label>¿Entrega o Retiro?</label>
+<select id="entrega"><option>Delivery - Que me traigan</option><option>Retiro en el local</option></select>
+<button class="btn" style="width:100%;border:0" onclick="pedir()">✅ ENVIAR PEDIDO POR WHATSAPP</button>
+<p style="font-size:13px;margin-top:10px">Al tocar, tu pedido llega directo a tu WhatsApp.</p>
+<a class="btn" style="background:#4285F4" href="https://www.google.com/maps/search/?api=1&query=Luque+Paraguay" target="_blank">📍 VER UBICACIÓN EN MAPA</a>
+</div>
+</section>
+<section>
+<h2>📍 Ubicación y Contacto</h2>
+<div class="card"><p>📍 Luque - Paraguay</p><p>📲 WhatsApp: 0991 247 771</p><p>🎧 Radio: MelodiRadio2026</p><p>⏰ Atendemos todos los días</p></div>
+</section>
+<footer>Hecho por DJ REY AYALA - CREO TU PÁGINA © 2026</footer>
+<script>
+let carrito=[]; let total=0;
+function agregar(n,p){carrito.push(n+" - "+p+" Gs"); total+=p; document.getElementById('lista').innerHTML=carrito.join('<br>'); document.getElementById('total').innerText=total.toLocaleString();}
+function pedir(){let n=document.getElementById('nombre').value; let d=document.getElementById('direccion').value; let pago=document.getElementById('pago').value; let e=document.getElementById('entrega').value; if(!n||!d){alert('Escribí tu nombre y dirección');return;} let msg="Hola! Quiero pedir:%0A"+carrito.join('%0A')+"%0A Total: "+total+" Gs %0A Nombre: "+n+"%0A Dirección: "+d+"%0A Pago: "+pago+"%0A Entrega: "+e; window.open("https://wa.me/59599124771?text="+msg);}
+</script>
+</body>
+</html>
