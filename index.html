@@ -15,12 +15,14 @@ header h1{margin:0;font-size:28px}
 .card p{margin:2px;color:#555}
 .card button{background:#FFD700;border:none;padding:10px;width:100%;border-radius:8px;font-weight:bold;font-size:16px;margin-top:6px}
 #carrito{background:white;margin:12px;padding:12px;border-radius:12px}
-#carrito input{width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:8px}
+#carrito input,#carrito select{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px;box-sizing:border-box;font-size:15px}
 .btn-pedido{background:#25D366;color:white;border:none;padding:14px;width:100%;border-radius:10px;font-size:18px;font-weight:bold;margin-top:8px}
+.btn-ubi{background:#2196F3;color:white;border:none;padding:12px;width:100%;border-radius:8px;font-weight:bold;margin:6px 0}
 .panel{background:#111;color:white;margin:12px;padding:15px;border-radius:12px}
 .panel h2{text-align:center;color:#FFD700}
 .resp-btn{display:block;text-decoration:none;text-align:center;padding:14px;border-radius:10px;font-weight:bold;font-size:17px;margin:8px 0;color:white}
 .b1{background:#25D366}.b2{background:#FF9800}.b3{background:#2196F3}.b4{background:#9C27B0}
+label{font-weight:bold;font-size:14px}
 </style>
 </head>
 <body>
@@ -32,43 +34,53 @@ header h1{margin:0;font-size:28px}
 </header>
 
 <div class="productos">
-
 <div class="card">
 <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFD700/000000?text=HAMBURGUESA'">
 <h3>🍔 Hamburguesa Clásica</h3><p>25.000 Gs.</p>
 <button onclick="agregar('Hamburguesa Clásica',25000)">AGREGAR</button>
 </div>
-
 <div class="card">
 <img src="https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=600&q=80" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FF9800/ffffff?text=EMPANADA'">
 <h3>🥟 Empanada</h3><p>5.000 Gs.</p>
 <button onclick="agregar('Empanada',5000)">AGREGAR</button>
 </div>
-
 <div class="card">
 <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFC107/000000?text=PAPAS+FRITAS'">
 <h3>🍟 Papas Fritas</h3><p>15.000 Gs.</p>
 <button onclick="agregar('Papas Fritas',15000)">AGREGAR</button>
 </div>
-
 <div class="card">
 <img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=600&q=80" onerror="this.onerror=null;this.src='https://placehold.co/600x400/8D6E63/ffffff?text=LOMITO+ARABE'">
 <h3>🌯 Lomito Árabe</h3><p>30.000 Gs.</p>
 <button onclick="agregar('Lomito Árabe',30000)">AGREGAR</button>
 </div>
-
 </div>
 
 <div id="carrito">
 <h3>🛒 Tu Pedido</h3>
 <div id="lista">Todavía no agregaste nada</div>
 <p><b>Total: <span id="total">0</span> Gs.</b></p>
-<input id="nombre" placeholder="Tu nombre">
-<input id="direccion" placeholder="Tu dirección / barrio">
-<select id="pago" style="width:100%;padding:10px;border-radius:8px">
+
+<label>👤 1. Tu nombre *</label>
+<input id="nombre" placeholder="Ej: Juan Pérez">
+
+<label>📱 2. Tu número de teléfono *</label>
+<input id="telefono" type="tel" placeholder="Ej: 0981 123 456">
+
+<label>📍 3. Tu ubicación *</label>
+<button class="btn-ubi" onclick="usarUbicacion()">📍 APRETÁ AQUÍ PARA MANDAR TU UBICACIÓN GPS</button>
+<input id="ubicacion" placeholder="Tu ubicación va a aparecer aquí sola...">
+<p style="font-size:12px;color:#666;margin:0">Si no querés usar GPS, escribí nomás tu barrio acá abajo 👇</p>
+
+<label>🏠 4. Tu barrio / dirección / referencia</label>
+<input id="direccion" placeholder="Ej: Barrio San José, frente a la plaza, casa verde">
+
+<label>💵 5. Cómo vas a pagar?</label>
+<select id="pago">
 <option value="Efectivo">💵 Pago en Efectivo</option>
 <option value="Transferencia">🏦 Transferencia - Alias 0991247112 Banco Familiar</option>
 </select>
+
 <button class="btn-pedido" onclick="pedir()">📲 ENVIAR PEDIDO POR WHATSAPP</button>
 <p style="font-size:13px;text-align:center">Si es transferencia: Alias 0991247112 - CI 4718105 - Banco Familiar</p>
 </div>
@@ -86,13 +98,26 @@ header h1{margin:0;font-size:28px}
 let carrito=[];let total=0;
 function agregar(n,p){carrito.push(n+" - "+p+" Gs.");total+=p;mostrar();}
 function mostrar(){document.getElementById('lista').innerHTML=carrito.join('<br>');document.getElementById('total').innerText=total.toLocaleString('es-PY');}
+function usarUbicacion(){
+if(!navigator.geolocation){alert('Tu celular no tiene GPS');return;}
+document.getElementById('ubicacion').value="Buscando tu ubicación...";
+navigator.geolocation.getCurrentPosition(function(pos){
+let lat=pos.coords.latitude;let lon=pos.coords.longitude;
+let link="https://www.google.com/maps?q="+lat+","+lon;
+document.getElementById('ubicacion').value=link;
+alert('¡Listo! Ya se guardó tu ubicación ✅');
+},function(){alert('No pudimos agarrar tu ubicación. Escribí tu barrio nomás.');});
+}
 function pedir(){
 let n=document.getElementById('nombre').value;
+let t=document.getElementById('telefono').value;
+let u=document.getElementById('ubicacion').value;
 let d=document.getElementById('direccion').value;
 let p=document.getElementById('pago').value;
 if(!n){alert('Poné tu nombre');return;}
+if(!t){alert('Poné tu número de teléfono');return;}
 if(carrito.length==0){alert('Agregá un producto');return;}
-let msg="Hola! Nuevo pedido Caacupeña SA%0A%0ACliente: "+n+"%0ADirección: "+d+"%0A%0A"+carrito.join('%0A')+"%0A%0ATotal: "+total+" Gs.%0APago: "+p;
+let msg="Hola! Nuevo pedido Caacupeña SA%0A%0A👤 Cliente: "+n+"%0A📱 Teléfono: "+t+"%0A📍 Ubicación: "+u+"%0A🏠 Dirección: "+d+"%0A%0A"+carrito.join('%0A')+"%0A%0ATotal: "+total+" Gs.%0APago: "+p;
 window.open("https://wa.me/595991247112?text="+msg,"_blank");
 }
 </script>
